@@ -1,0 +1,18 @@
+erDiagram
+  CATEGORIES ||--o{ TICKETS : "classifies"
+  CATEGORIES {
+    uuid id PK
+    text name "unique, required, 2-40 chars"
+    timestamptz created_at "default now()"
+  }
+  TICKETS {
+    uuid id PK
+    text title "required, 3-100 chars"
+    text description "required, 10-1000 chars"
+    text staff_name "required, 2-80 chars"
+    uuid category_id FK "required, references categories.id"
+    text priority "Low, Medium, High, Urgent"
+    text status "Open, In Progress, Resolved, Closed"
+    timestamptz created_at "default now()"
+    timestamptz updated_at "default now()"
+  }

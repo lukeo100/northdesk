@@ -1,0 +1,18 @@
+flowchart TD
+  A([Staff member opens Northdesk]) --> B[Ticket list page loads]
+  B --> C{Tickets loaded?}
+  C -- Error --> D[Error message with retry button]
+  D --> B
+  C -- Empty --> E[Empty state with New Ticket button]
+  C -- Yes --> F[Table of tickets]
+  F --> G{Filter tickets?}
+  G -- Yes --> H[Choose status, priority or category, or type a search]
+  H --> I[List updates to matching tickets]
+  I --> J
+  G -- No --> J{Open a ticket?}
+  J -- Yes --> K[Click a ticket row]
+  K --> L[Ticket detail page]
+  L --> M[View all fields, created and updated times]
+  M --> N[Back to list]
+  N --> F
+  J -- No --> O([End])

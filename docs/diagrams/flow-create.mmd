@@ -1,0 +1,16 @@
+flowchart TD
+  A([Staff member opens Northdesk]) --> B[Ticket list page]
+  B --> C[Click New Ticket]
+  C --> D[Create ticket form]
+  D --> E[Fill in title, description, requester, category, priority]
+  E --> F[Click Submit]
+  F --> G{Inputs valid?}
+  G -- No --> H[Inline error messages shown]
+  H --> E
+  G -- Yes --> I[Save ticket to Supabase]
+  I --> J{Saved OK?}
+  J -- No --> K[Error toast shown, form data kept]
+  K --> F
+  J -- Yes --> L[Success toast shown]
+  L --> M[Redirect to ticket list with new ticket]
+  M --> N([End])

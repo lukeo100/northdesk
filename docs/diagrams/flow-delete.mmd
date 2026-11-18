@@ -1,0 +1,13 @@
+flowchart TD
+  A([Staff member on ticket list or detail page]) --> B[Click Delete on a ticket]
+  B --> C[Confirmation dialog: Delete this ticket?]
+  C --> D{Confirm?}
+  D -- Cancel --> E[Dialog closes, ticket unchanged]
+  E --> F([End])
+  D -- Delete --> G[Remove ticket from Supabase]
+  G --> H{Deleted OK?}
+  H -- No --> I[Error toast shown, ticket still listed]
+  I --> F
+  H -- Yes --> J[Success toast shown]
+  J --> K[Ticket list refreshes without the ticket]
+  K --> F

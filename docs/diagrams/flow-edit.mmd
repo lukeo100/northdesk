@@ -1,0 +1,17 @@
+flowchart TD
+  A([Staff member on ticket list or detail page]) --> B[Click Edit on a ticket]
+  B --> C[Edit form pre-filled with current values]
+  C --> D[Change fields, including status]
+  D --> E[Click Save changes]
+  E --> F{Inputs valid?}
+  F -- No --> G[Inline error messages shown]
+  G --> D
+  F -- Yes --> H[Update ticket in Supabase, set updated_at]
+  H --> I{Saved OK?}
+  I -- No --> J[Error toast shown, edits kept]
+  J --> E
+  I -- Yes --> K[Success toast shown]
+  K --> L[Return to ticket detail with new values]
+  L --> M([End])
+  C --> N[Click Cancel]
+  N --> L
