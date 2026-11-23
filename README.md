@@ -56,9 +56,10 @@ Never commit `.env.local`. Only use the publishable (public) key in the browser.
 
 1. Create a new Supabase project.
 2. Open the SQL editor and run `supabase/migrations/20261118000000_init_northdesk.sql`.
-3. Check that the `categories` and `tickets` tables exist and that the five categories were added.
+3. Expose the schema to the API: Project Settings, Data API, Exposed schemas, add `northdesk`, then save.
+4. Check that the `categories` and `tickets` tables exist in the `northdesk` schema and that the five categories were added.
 
-The migration creates both tables, the CHECK rules for required fields, lengths and allowed status and priority values, an `updated_at` trigger, and the seed categories. See `docs/diagrams/erd.png` for the schema.
+The migration creates a `northdesk` schema containing both tables, the CHECK rules for required fields, lengths and allowed status and priority values, an `updated_at` trigger, and the seed categories. See `docs/diagrams/erd.png` for the schema.
 
 ## Running Locally
 
@@ -85,6 +86,7 @@ TODO: add the real problems you hit. Likely candidates:
 
 - Missing Supabase environment variables error on start: check `.env.local` exists and the dev server was restarted after editing it.
 - Empty ticket list or category dropdown: confirm the migration ran and the seed categories exist.
+- "Invalid schema: northdesk" error: add `northdesk` to Exposed schemas in the Supabase Data API settings.
 - Insert fails with a constraint error: the value broke a database rule (length or allowed status/priority).
 
 ## Project Documentation

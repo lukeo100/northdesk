@@ -11,4 +11,8 @@ if (!supabaseUrl || !supabaseKey) {
   );
 }
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// All Northdesk tables live in the "northdesk" schema, not the default "public" one.
+// The schema must also be listed under Exposed schemas in the Supabase Data API settings.
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  db: { schema: "northdesk" },
+});

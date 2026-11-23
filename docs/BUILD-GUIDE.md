@@ -4,7 +4,7 @@ Suggested order for the build day. Tick things off as you go and commit after ea
 
 ## 0. Before you start
 
-1. Supabase project created, and `supabase/migrations/20261118000000_init_northdesk.sql` run in the SQL editor.
+1. Supabase project set up with the Northdesk tables in their own `northdesk` schema (from `supabase/migrations/20261118000000_init_northdesk.sql`), and `northdesk` added under Project Settings, Data API, Exposed schemas.
 2. `.env.local` created from `.env.example` with your project URL and publishable key.
 3. `npm install` then `npm run dev` runs without errors.
 
