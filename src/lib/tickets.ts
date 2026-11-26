@@ -25,25 +25,65 @@ export interface TicketFilters {
 export async function getTickets(
   filters: TicketFilters = {}
 ): Promise<TicketWithCategory[]> {
-  void filters;
-  throw new Error("TODO: implement getTickets");
+  let query = supabase
+    .from("tickets")
+    .select("*, categories(name)")
+    .order("created_at", { ascending: false });
+
+  if (filters.search) query = query.ilike("title", `%${filters.search}%`);
+  if (filters.status) query = query.eq("status", filters.status);
+  if (filters.priority) query = query.eq("priority", filters.priority);
+  if (filters.categoryId) query = query.eq("category_id", filters.categoryId);
+
+  const { data, error } = await query;
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data as TicketWithCategory[];
 }
 
 // READ: one ticket by id, with its category name.
 export async function getTicket(id: string): Promise<TicketWithCategory> {
   void id;
-  throw new Error("TODO: implement getTicket");
+  const { data, error } = await supabase
+    .from("tickets")
+    .select("*, categories(name)")
+    .eq("id", id)
+    .single();
+    
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data as TicketWithCategory;
 }
 
 // READ: the category list for the dropdowns and filter.
 export async function getCategories(): Promise<Category[]> {
-  throw new Error("TODO: implement getCategories");
+  const { data, error } = await supabase
+    .from("categories")
+    .select("*")
+    .order("name", { ascending: true });
+    
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data as Category[];
 }
 
 // CREATE: insert a ticket and return the saved row.
 export async function createTicket(input: TicketInput): Promise<Ticket> {
   void input;
-  throw new Error("TODO: implement createTicket");
+  const { data, error } = await supabase
+    .from("tickets")
+    .insert(input)
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data as Ticket;
 }
 
 // UPDATE: change a ticket by id and return the saved row.
@@ -54,11 +94,28 @@ export async function updateTicket(
 ): Promise<Ticket> {
   void id;
   void input;
-  throw new Error("TODO: implement updateTicket");
+  const { data, error } = await supabase
+    .from("tickets")
+    .update(input)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data as Ticket;
 }
 
 // DELETE: remove a ticket by id.
 export async function deleteTicket(id: string): Promise<void> {
   void id;
-  throw new Error("TODO: implement deleteTicket");
+  const { error } = await supabase
+    .from("tickets")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
 }

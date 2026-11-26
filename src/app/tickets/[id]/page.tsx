@@ -1,23 +1,22 @@
+import { Suspense } from "react";
 import Link from "next/link";
+import { RiArrowLeftLine } from "@remixicon/react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { TicketDetail } from "@/components/ticket-detail";
 
 // Ticket detail page (wireframe 2).
-// TODO: load the ticket with getTicket(id) and show every field plus created/updated times.
-// TODO: add Edit and Delete buttons (Delete opens the confirmation dialog, wireframe 5).
-// TODO: handle a ticket that does not exist.
-export default async function TicketDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-
+// The page does not read params itself. <TicketDetail /> reads the id from the URL in the browser,
+// and Suspense lets the page shell show straight away.
+export default function TicketDetailPage() {
   return (
-    <main className="mx-auto w-full max-w-6xl p-8">
-      <Link href="/" className="text-sm underline">
+    <main className="mx-auto flex w-full max-w-3xl flex-col gap-6 p-4 sm:p-8">
+      <Link href="/" className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+        <RiArrowLeftLine className="size-4" aria-hidden="true" />
         Back to tickets
       </Link>
-      <h1 className="mt-4 text-2xl font-bold">Ticket {id}</h1>
-      <p className="mt-4 text-sm text-gray-600">TODO: build the detail view here.</p>
+      <Suspense fallback={<Skeleton className="h-64 w-full" />}>
+        <TicketDetail />
+      </Suspense>
     </main>
   );
 }
